@@ -17,6 +17,10 @@ app.use(cors({
 // Routes
 app.use("/api", generateSRSRoute);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to SRS PDF Generator");
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

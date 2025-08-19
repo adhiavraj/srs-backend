@@ -21,7 +21,7 @@ app.use(cors({
 
 
 // Routes
-app.use("/api", generateSRSRoute);
+app.use("/api/generate-srs", generateSRSRoute);
 
 app.get("/", (req, res) => {
   res.send("Welcome to SRS PDF Generator");

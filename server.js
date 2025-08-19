@@ -9,6 +9,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({
+  origin: "https://srs-pdf.pages.dev",
+  methods: ["GET", "POST"],
+}));
 
 // Routes
 app.use("/api", generateSRSRoute);

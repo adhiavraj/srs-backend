@@ -12,7 +12,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-router.post("/generate-srs", async (req, res) => {
+router.post("/", async (req, res) => {
   const { cover, introduction, generalDescription, specificRequirements } = req.body;
 
   try {

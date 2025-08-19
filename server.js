@@ -7,12 +7,18 @@ import generateSRSRoute from "./routes/generateSRS.js";
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 app.use(cors({
-  origin: "https://srs-pdf.pages.dev",
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow server-to-server requests
+    if (origin.endsWith(".srs-pdf.pages.dev") || origin === "https://srs-pdf.pages.dev") {
+      return callback(null, true);
+    }
+    return callback(new Error("Not allowed by CORS"));
+  },
   methods: ["GET", "POST"],
 }));
+
 
 // Routes
 app.use("/api", generateSRSRoute);

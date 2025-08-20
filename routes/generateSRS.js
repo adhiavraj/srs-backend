@@ -38,7 +38,16 @@ router.post("/", async (req, res) => {
       ],
     });
 
+    console.log("Incoming body:", req.body);
+    console.log("Using API key:", process.env.OPENROUTER_API_KEY ? "✅ Present" : "❌ Missing");
+
     const srsText = completion.choices[0].message.content || "No SRS generated.";
+
+    if(srsText) {
+      console.log('SRS Text Generated from the Ai Model');
+    } else {
+      console.log("Failed to generate the Srs Text from Ai Model")
+    }
 
     // 🔹 Generate PDF from AI response
     const doc = new PDFDocument({ margin: 50 });
@@ -82,9 +91,10 @@ router.post("/", async (req, res) => {
     doc.fontSize(12).text(srsText, { align: "left" });
 
     doc.end();
-  } catch (err) {
-    console.error("❌ Error:", err);
-    res.status(500).json({ error: "Failed to generate SRS PDF" });
+
+  } catch (aiErr) {
+    console.error("AI generation failed:", aiErr.response?.data || aiErr.message);
+    return res.status(500).json({ error: "AI generation failed" });
   }
 });
 

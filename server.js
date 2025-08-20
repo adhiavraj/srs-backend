@@ -10,8 +10,12 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // allow server-to-server requests
-    if (origin.endsWith(".srs-pdf.pages.dev") || origin === "https://srs-pdf.pages.dev") {
+    if (!origin) return callback(null, true);
+    if (
+      origin.endsWith(".srs-pdf.pages.dev") ||
+      origin === "https://srs-pdf.pages.dev" ||
+      origin.startsWith("http://localhost:")
+    ) {
       return callback(null, true);
     }
     return callback(new Error("Not allowed by CORS"));
